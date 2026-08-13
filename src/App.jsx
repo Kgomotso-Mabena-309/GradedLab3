@@ -1,3 +1,4 @@
+//Uses index.css for styling
 import React from "react";
 import { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar.jsx";
@@ -19,24 +20,26 @@ function App() {
         }
         return response.json();
       })
+      //API returns the products and stores the data in a state
       .then((data) => {
         setProducts(data);
         setFilteredProducts(data);
         setLoading(false);
       })
+      //error handling
       .catch((error) => {
         setError(error);
         setLoading(false);
       });
   }, []);
-
+//For case-sensitivity
   useEffect(() => {
     const filtered = products.filter((product) =>
       product.title.toLowerCase().includes(searchQuery.toLowerCase()),
     );
     setFilteredProducts(filtered);
   }, [searchQuery, products]);
-
+//Waits for the API to load , shows the error if something went wrong if not it renders the product list
   if (loading) {
     return <div>Loading...</div>;
   } else if (error) {
